@@ -18,6 +18,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final curScaleFactor = MediaQuery.of(context).textScaleFactor;
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
               title: TextStyle(
                 fontFamily: 'openSans',
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 18 * curScaleFactor,
               ),
               button: TextStyle(
                 color: Colors.white,
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
                   fontFamily: 'openSans',
-                  fontSize: 20,
+                  fontSize: 20 * curScaleFactor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -56,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   final List<Transaction> _userTransactions = [
 //    Transaction(
 //      id: 't1',
