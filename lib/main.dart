@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final curScaleFactor = MediaQuery.of(context).textScaleFactor;
+   // final curScaleFactor = MediaQuery.of(context).textScaleFactor;
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
               title: TextStyle(
                 fontFamily: 'openSans',
                 fontWeight: FontWeight.bold,
-                fontSize: 18 * curScaleFactor,
+                fontSize: 18 ,
               ),
               button: TextStyle(
                 color: Colors.white,
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
                   fontFamily: 'openSans',
-                  fontSize: 20 * curScaleFactor,
+                  fontSize: 20 ,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -115,8 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandScape = mediaQuery.orientation == Orientation.landscape;
+    final isLandScape =MediaQuery.of(context).orientation == Orientation.landscape;
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text('Personal Expenses'),
