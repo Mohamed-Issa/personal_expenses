@@ -18,8 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-   // final curScaleFactor = MediaQuery.of(context).textScaleFactor;
+    // final curScaleFactor = MediaQuery.of(context).textScaleFactor;
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
               title: TextStyle(
                 fontFamily: 'openSans',
                 fontWeight: FontWeight.bold,
-                fontSize: 18 ,
+                fontSize: 18,
               ),
               button: TextStyle(
                 color: Colors.white,
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
                   fontFamily: 'openSans',
-                  fontSize: 20 ,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -58,7 +57,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<Transaction> _userTransactions = [
 //    Transaction(
 //      id: 't1',
@@ -113,9 +111,53 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
+  List<Widget> _buildLandScapeContent(AppBar appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Show Chart",
+            style: Theme.of(context).textTheme.title,
+          ),
+          Switch.adaptive(
+            // IOS switch
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          )
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.7,
+              child: Chart(_recentTransaction))
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(AppBar appBar, Widget txListWidget) {
+    return [
+      Container(
+          height: (MediaQuery.of(context).size.height -
+                  appBar.preferredSize.height -
+                  MediaQuery.of(context).padding.top) *
+              0.3,
+          child: Chart(_recentTransaction)),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isLandScape =MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text('Personal Expenses'),
@@ -150,39 +192,8 @@ class _MyHomePageState extends State<MyHomePage> {
 //          mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          if (isLandScape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Show Chart", style: Theme.of(context).textTheme.title,),
-                Switch.adaptive(
-                  // IOS switch
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                )
-              ],
-            ),
-          if (!isLandScape)
-            Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.3,
-                child: Chart(_recentTransaction)),
-          if (!isLandScape) txListWidget,
-          if (isLandScape)
-            _showChart
-                ? Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        0.7,
-                    child: Chart(_recentTransaction))
-                : txListWidget
+          if (isLandScape) ..._buildLandScapeContent(appBar, txListWidget),
+          if (!isLandScape) ..._buildPortraitContent(appBar, txListWidget),
         ],
       ),
     ));

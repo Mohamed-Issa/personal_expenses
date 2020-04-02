@@ -33,7 +33,8 @@ class TransactionList extends StatelessWidget {
         : ListView.builder(
             itemCount: transaction.length,
             itemBuilder: (ctx, index) {
-              return TransactionItem(transaction: transaction[index], deleteTX: deleteTX);
+              return TransactionItem(
+                  transaction: transaction[index], deleteTX: deleteTX);
 //                return Card(
 //                  child: Row(
 //                    children: <Widget>[
@@ -77,4 +78,3 @@ class TransactionList extends StatelessWidget {
           );
   }
 }
-
