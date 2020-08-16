@@ -1,4 +1,4 @@
-# fluttercompleteguide2
+# personal expenses
 
 A new Flutter application.
 
